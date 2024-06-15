@@ -11,14 +11,10 @@ services:
       POSTGRES_USER: ${DB_USERNAME}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_DATABASE}
-    # command: postgres -c 'config_file=/etc/postgresql/postgresql.conf'
     ports:
       - ${DB_PORT:-5432}:5432
     volumes:
-      - ./docker/database/postgres/data/:/var/lib/postgresql/data
-      # - ./docker/database/postgres/postgres.conf:/etc/postgresql/postgresql.conf
-      # - ./docker/database/postgres/pg_hba.conf:/etc/postgresql/pg_hba.conf
-      # - ./docker/database/postgres/init/:/docker-entrypoint-initdb.d
+      - ./docker/database/postgres/data/:/var/lib/postgresql/datadocker
     env_file:
       - .env
 
@@ -30,3 +26,18 @@ services:
       - 6378:6378
     volumes:
       - ./docker/database/redis/data:/data
+
+  app:
+    container_name: game_random_be
+    image: game_random_be
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - ${PORT}:${PORT}
+    env_file:
+      - .env
+    depends_on:
+      - database
+      - redis
