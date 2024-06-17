@@ -1,4 +1,3 @@
-import { Redis } from 'ioredis'
 import { Server, Socket } from 'socket.io'
 
 const GAME_DURATION = 60 // 1 min
@@ -9,10 +8,8 @@ class SocketService {
   private pendingTimeout: NodeJS.Timeout
   private countdown: number = GAME_DURATION
   private socket: Socket
-  private redis: Redis
 
   constructor(io: Server) {
-    this.redis = new Redis()
     io.on('connection', (socket: Socket) => {
       this.handleConnection(socket)
       this.socket = socket

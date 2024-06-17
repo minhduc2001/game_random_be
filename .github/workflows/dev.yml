@@ -18,10 +18,10 @@ jobs:
         if: github.ref == 'refs/heads/main'
         uses: appleboy/ssh-action@v0.1.8
         with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          port: ${{ secrets.PORT }}
-          password: ${{ secrets.PASSWORD }}
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          port: ${{ secrets.SERVER_PORT }}
+          password: ${{ secrets.SERVER_PASSWORD }}
           script: |
             cd game-random-be
             git pull origin main
@@ -33,7 +33,7 @@ jobs:
         if: failure()
         uses: tsickert/discord-webhook@v6.0.0
         with:
-          webhook: ${{ secrets.DISCORD_URL }}
+          webhook: ${{ secrets.WEBHOOKS_DISCORD }}
 
   notification:
     needs: build
