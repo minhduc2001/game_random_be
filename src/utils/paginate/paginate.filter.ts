@@ -312,7 +312,7 @@ export function addFilter<T>(
 ): SelectQueryBuilder<T> {
   const filter = parseFilter(query, filterableColumns)
   return qb.andWhere(
-    new Brackets((qb: SelectQueryBuilder<T>) => {
+    new Brackets((qb: any) => {
       for (const column in filter) {
         addWhereCondition(qb, column, filter)
       }

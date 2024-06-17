@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction, Router } from 'express'
 import BadRequest from '@/middlewares/exception/BadRequest'
-import Container from 'typedi'
 import UserService from '@/services/user.service'
 
 class UserController {
@@ -12,9 +11,9 @@ class UserController {
     try {
       const data = this.userService.getAll()
 
-      response.customSuccess(200, {})
+      response.customSuccess(200, data)
     } catch (e) {
-      return next(new BadRequest({ message: e.message }))
+      return next(e)
     }
   }
 }

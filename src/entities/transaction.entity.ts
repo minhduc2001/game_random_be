@@ -1,10 +1,11 @@
-import { Column, JoinColumn, ManyToOne } from 'typeorm'
-import { BaseEntity } from './base.entity'
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm'
+import { AbstractEntity } from './base.entity'
 import { TransactionSelect, TransactionStatus } from '@/enums/transaction.enum'
 import { User } from './user.entity'
 import { SessionGame } from './session_game.entity'
 
-export class Transaction extends BaseEntity {
+@Entity()
+export class Transaction extends AbstractEntity {
   @Column({ default: 0 })
   xu_an: number
 

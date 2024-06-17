@@ -1,9 +1,10 @@
-import { AfterLoad, Column, JoinColumn, ManyToOne, OneToMany } from 'typeorm'
-import { BaseEntity } from './base.entity'
+import { AfterLoad, Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm'
 import { Server } from './server.entity'
 import { Transaction } from './transaction.entity'
+import { AbstractEntity } from './base.entity'
 
-export class SessionGame extends BaseEntity {
+@Entity()
+export class SessionGame extends AbstractEntity {
   @Column({ type: 'boolean', nullable: true, default: null })
   res_cl: boolean
 

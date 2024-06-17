@@ -1,12 +1,11 @@
 import { Column, Entity } from 'typeorm'
-import { Exclude } from 'class-transformer'
 import { ERole } from '@/enums/role.enum'
 
 import * as bcrypt from 'bcrypt'
-import { BaseEntity } from './base.entity'
+import { AbstractEntity } from './base.entity'
 
 @Entity()
-export class User extends BaseEntity {
+export class User extends AbstractEntity {
   @Column({ unique: true })
   username: string
 

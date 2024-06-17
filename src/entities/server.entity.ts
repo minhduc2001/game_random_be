@@ -1,8 +1,9 @@
-import { Column, JoinColumn, OneToMany } from 'typeorm'
-import { BaseEntity } from './base.entity'
+import { Column, Entity, JoinColumn, OneToMany } from 'typeorm'
+import { AbstractEntity } from './base.entity'
 import { SessionGame } from './session_game.entity'
 
-export class Server extends BaseEntity {
+@Entity()
+export class Server extends AbstractEntity {
   @Column()
   name: string
 

@@ -15,6 +15,7 @@ import { initWebSocket } from './configs/socket.config'
 import SocketService from './services/socket.service'
 import swaggerUi from 'swagger-ui-express'
 import swaggerDocument from './swagger.json'
+import { extendedResponse } from './middlewares/express-extended-response.middleware'
 
 const app: Express = express()
 const port = envConfig.PORT || 3000
@@ -29,6 +30,7 @@ app.use(bodyParser.json({ limit: '50mb' }))
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: false }))
 
 app.use(morganMiddleware)
+app.use(extendedResponse)
 app.use('/api', routes)
 app.use(exceptionFilter)
 app.use('/apidoc', swaggerUi.serve)

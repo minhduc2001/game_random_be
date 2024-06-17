@@ -23,7 +23,7 @@ class VerifyJWTToken {
 
     if (token) {
       const accessToken = token.split(' ')[1]
-      jwt.verify(accessToken, envConfig.JWT_SECRET, async (err: any, userDecode: User) => {
+      jwt.verify(accessToken, envConfig.JWT_SECRET, async (err: any, userDecode: any) => {
         if (err) {
           return next(new Authorization({ message: 'Mã xác thực không đúng' }))
         }

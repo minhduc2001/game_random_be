@@ -10,7 +10,7 @@ export const PSQL = new DataSource({
   database: envConfig.DB_DATABASE,
   synchronize: true,
   logging: false,
-  entities: ['src/**/*.entity{.ts,.js}'],
+  entities: ['dist/**/*.entity{.ts,.js}'],
   subscribers: [],
   migrations: [],
   ssl: false

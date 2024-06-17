@@ -204,7 +204,7 @@ export async function paginate<T extends ObjectLiteral>(
 
   if (query.search && searchBy.length) {
     queryBuilder.andWhere(
-      new Brackets((qb: SelectQueryBuilder<T>) => {
+      new Brackets((qb: any) => {
         for (const column of searchBy) {
           const property = getPropertiesByColumnName(column)
           const { isVirtualProperty, query: virtualQuery } = extractVirtualProperty(qb, property)
