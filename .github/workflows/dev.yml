@@ -23,7 +23,7 @@ jobs:
           port: ${{ secrets.SERVER_PORT }}
           password: ${{ secrets.SERVER_PASSWORD }}
           script: |
-            cd game-random-be
+            cd game_random_be
             git pull origin main
             docker compose up -d --build
             docker image prune -a -f --filter until=48h
