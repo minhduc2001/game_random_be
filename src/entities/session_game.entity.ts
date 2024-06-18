@@ -11,22 +11,29 @@ export class SessionGame extends AbstractEntity {
   @Column({ type: 'boolean', nullable: true, default: null })
   res_tx: boolean
 
-  @Column({ default: 0 })
+  @Column({ nullable: true, default: 0 })
   coin_random: number
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, default: 100 })
   res_percent: number
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, default: 0 })
   coin: number
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, default: 0 })
   total_coin: number
 
   @Column({ nullable: true })
   coin_prev: number
 
+  @Column({ nullable: true, default: 0 })
+  coin_prev_total: number
+
+  @Column({ type: 'boolean', default: true })
+  active: boolean
+
   @ManyToOne(() => Server, (sv) => sv.session_games)
+  @JoinColumn({ name: 'server_id' })
   server_game: Server
 
   @OneToMany(() => Transaction, (transaction) => transaction.session_game)
@@ -40,8 +47,8 @@ export class SessionGame extends AbstractEntity {
     this.total_coin = this.coin + this.coin_prev + this.coin_random
   }
 
-  setResCoin(coin: number) {
-    const total = String(coin)
+  setResCoin() {
+    const total = String(this.total_coin)
       .split('')
       .reduce((pre, cur) => pre + Number.parseInt(cur), 0)
 

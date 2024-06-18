@@ -40,7 +40,7 @@ export class Env {
 
   // Redis
   REDIS_HOST = _process.env.REDIS_HOST
-  REDIS_PORT = Number(_process.env.REDIS_PORT) ?? 4369
+  REDIS_PORT = Number(_process.env.REDIS_PORT) ?? 6379
 }
 
 export const envConfig = new Env()

@@ -7,7 +7,6 @@ export class Server extends AbstractEntity {
   @Column()
   name: string
 
-  @OneToMany(() => SessionGame, (sg) => sg.transaction)
-  @JoinColumn({ referencedColumnName: 'server_id' })
+  @OneToMany(() => SessionGame, (sg) => sg.server_game)
   session_games: SessionGame[]
 }

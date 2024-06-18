@@ -16,6 +16,7 @@ import SocketService from './services/socket.service'
 import swaggerUi from 'swagger-ui-express'
 import swaggerDocument from './swagger.json'
 import { extendedResponse } from './middlewares/express-extended-response.middleware'
+import { createConnectionRedis } from './configs/redis.config'
 
 const app: Express = express()
 const port = envConfig.PORT || 3000
@@ -41,6 +42,7 @@ const io = initWebSocket(server)
 new SocketService(io)
 
 createConnection()
+createConnectionRedis()
 
 server.listen(port, () => {
   logger.info(`⚡️[server]: Server is running at http://localhost:${port}`)
