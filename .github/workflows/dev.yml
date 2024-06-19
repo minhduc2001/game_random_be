@@ -24,8 +24,8 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           script: |
             cd game_random_be
-            cp .env.development .env
             git pull origin main
+            cp .env.development .env
             docker compose up -d --build
             docker image prune -a -f --filter until=48h
             echo "Done!"
