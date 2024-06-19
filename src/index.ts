@@ -32,18 +32,22 @@ app.use(bodyParser.urlencoded({ limit: '50mb', extended: false }))
 
 app.use(morganMiddleware)
 app.use(extendedResponse)
-app.use('/api', routes)
-app.use(exceptionFilter)
+
 app.use('/apidoc', swaggerUi.serve)
 app.get('/apidoc', swaggerUi.setup(swaggerDocument))
 
 const server = http.createServer(app)
-const io = initWebSocket(server)
-new SocketService(io)
+const startServer = async () => {
+  await Promise.all([createConnection(), createConnectionRedis()])
 
-createConnection()
-createConnectionRedis()
+  const io = initWebSocket(server)
+  new SocketService(io)
+  app.use('/api/v1', routes)
+  app.use(exceptionFilter)
 
-server.listen(port, () => {
-  logger.info(`⚡️[server]: Server is running at http://localhost:${port}`)
-})
+  server.listen(port, () => {
+    logger.info(`⚡️[server]: Server is running at http://localhost:${port}`)
+  })
+}
+
+startServer()

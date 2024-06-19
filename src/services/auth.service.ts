@@ -6,10 +6,12 @@ import NotFound from '@/middlewares/exception/Notfound'
 import { envConfig } from '@/configs/env.config'
 
 class AuthService {
+  constructor() {}
+
   async login(username: string, password: string): Promise<ResponseLogin> {
     const user = await PSQL.createQueryBuilder(User, 'user')
       .where('user.username = :username', { username })
-      .select(['id', 'password', 'username', 'full_name', 'email'])
+      .select(['user.id', 'user.password', 'user.username', 'user.full_name', 'user.email'])
       .getOne()
 
     if (!user) throw new NotFound()

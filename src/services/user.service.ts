@@ -14,7 +14,7 @@ class UserService {
   async getUserForAuth(id: number) {
     const user = await PSQL.createQueryBuilder(User, 'user')
       .where('user.id = :id', { id })
-      .select(['id', 'full_name', 'avatar', 'email', 'phone', 'coin', 'role'])
+      .select(['user.id', 'user.full_name', 'user.avatar', 'user.email', 'user.phone', 'user.coin', 'user.role'])
       .getOne()
 
     if (!user) throw new NotFound()

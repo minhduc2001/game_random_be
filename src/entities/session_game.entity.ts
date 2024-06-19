@@ -56,7 +56,7 @@ export class SessionGame extends AbstractEntity {
     this.res_tx = false
 
     if (Number.parseInt(total.toString().at(-1)) >= 5) this.res_tx = true
-    if (Number.parseInt(total.toString().at(-1)) % 2 == 0) this.res_cl = true
+    if (total % 2 == 0) this.res_cl = true
   }
 
   @AfterLoad()

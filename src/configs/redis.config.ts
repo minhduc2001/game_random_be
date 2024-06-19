@@ -6,15 +6,14 @@ export const REDIS = new Redis(envConfig.REDIS_PORT, envConfig.REDIS_HOST, {
   lazyConnect: true
 })
 
-export const createConnectionRedis = () => {
-  REDIS.connect()
-    .then(() => console.log('connect redis successfully'))
-    .catch((e) => {
-      console.log('error', e)
-    })
+let connected = false
+
+export const createConnectionRedis = async () => {
+  await REDIS.connect()
+  connected = true
 }
 
 export const getRedis = () => {
-  if (REDIS) return REDIS
+  if (connected) return REDIS
   return null
 }

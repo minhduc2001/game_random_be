@@ -41,8 +41,8 @@ class SocketService {
 
   handleConnection(socket: Socket) {
     console.log('Client đã kết nối:', socket.id)
-    socket.emit('countdown', { time: this.countdown })
-    socket.emit('res', { res_cl: this.res_cl, res_tx: this.res_tx })
+    socket.emit('countdown', { time: this.countdown, res_cl: this.res_cl, res_tx: this.res_tx, data: this.sessionGame })
+    // socket.emit('res', { res_cl: this.res_cl, res_tx: this.res_tx })
 
     if (!this.countdownInterval) {
       this.startCountdown()
@@ -73,13 +73,13 @@ class SocketService {
     this.countdownInterval = setInterval(() => {
       this.countdown--
 
-      if (this.countdown >= 0) {
+      if (this.countdown > 0) {
         if (this.countdown == 13) {
           this.sessionGame.coin_random = Math.floor(Math.random() * 1000000) + 1000000
           this.redis.set('countdown', JSON.stringify(this.sessionGame))
-        }
-        this.socket.emit('countdown', { time: this.countdown, data: this.sessionGame })
-        clearTimeout(this.pendingTimeout)
+          this.socket.emit('countdown', { time: this.countdown, data: this.sessionGame })
+        } else this.socket.emit('countdown', { time: this.countdown })
+        if (this.pendingTimeout) clearTimeout(this.pendingTimeout)
       } else {
         this.startPendingPhase()
         clearInterval(this.countdownInterval)
@@ -103,13 +103,20 @@ class SocketService {
     session_game.setResCoin()
     await session_game.save()
 
-    if (session_game.res_cl) this.res_cl.push('c')
-    else this.res_cl.push('d')
-    if (session_game.res_tx) this.res_tx.push('t')
-    else this.res_tx.push('k')
+    if (session_game.res_cl) this.res_cl.unshift('c')
+    else this.res_cl.unshift('d')
+    if (session_game.res_tx) this.res_tx.unshift('t')
+    else this.res_tx.unshift('k')
 
-    this.socket.emit('countdown', { time: this.countdown, data: session_game })
-    this.socket.emit('res', { res_cl: this.res_cl, res_tx: this.res_tx })
+    this.res_cl.pop()
+    this.res_tx.pop()
+
+    this.socket.emit('countdown', {
+      time: this.countdown,
+      data: session_game,
+      res_cl: this.res_cl,
+      res_tx: this.res_tx
+    })
 
     this.pendingTimeout = setTimeout(() => {
       this.countdown = GAME_DURATION
