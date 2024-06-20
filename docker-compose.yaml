@@ -26,6 +26,8 @@ services:
       - ${REDIS_PORT}:6379
     volumes:
       - ./docker/database/redis/data:/data
+    env_file:
+      - .env
 
   app:
     container_name: game_random_be
